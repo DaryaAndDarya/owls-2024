@@ -25,7 +25,7 @@ export default function CraftCard({
           margin: "10px",
         }}
       >
-        <Card.Img variant="top" src={craft.url} />
+        <Card.Img variant="top" src={`/img/${craft.url}`}  />
         <Card.Body>
           <Card.Title>{craft.title}</Card.Title>
           <Card.Text>Смастерил: {craft?.User?.name}</Card.Text>

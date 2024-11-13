@@ -15,11 +15,19 @@ export default function CraftAddForm() {
       const dataFromForm = event.target;
       const newDataFromForm = new FormData(dataFromForm);
       const dataForApi = Object.fromEntries(newDataFromForm);
-      if (!dataForApi.title || !dataForApi.desc || !dataForApi.url) {
+      if (!dataForApi.title || !dataForApi.desc || !dataForApi.file) {
         alert("Не все поля заполнены");
         return;
       }
-      await axiosInstance.post("/craft", dataForApi);
+      console.log(dataForApi);
+      
+      const dataFile = new FormData();
+      dataFile.append('title', dataForApi.title);
+      dataFile.append('desc', dataForApi.desc);
+      dataFile.append('file', dataForApi.file);
+      console.log(dataFile);
+      
+      await axiosInstance.post("/craft", dataFile);
       navigate("/craft");
       event.target.reset(); // очистка формы
     } catch (error) {
@@ -42,9 +50,9 @@ export default function CraftAddForm() {
           className="mb-3"
         />
         <Form.Control
-          name="url"
-          type="text"
-          placeholder="Ссылка на изображение"
+          name="file"
+          type="file"
+          placeholder="Загрузите изображение"
           className="mb-3"
         />
         <Button type="submit" variant="light" className="mb-3 center ">
