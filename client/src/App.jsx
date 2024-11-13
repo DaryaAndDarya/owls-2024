@@ -15,6 +15,7 @@ function App() {
     {
       path: "/",
       element: <Layout logoutHandler={logoutHandler} user={user} />,
+      errorElement: <h1>No content</h1>,
       children: [
         {
           path: "/",

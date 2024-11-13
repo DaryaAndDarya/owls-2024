@@ -1,6 +1,9 @@
 const craftRouter = require('express').Router();
 const { Craft, User } = require('../../db/models');
 const { verifyAccessToken } = require('../middlewares/verifyTokens');
+const upload = require('../middlewares/multer');
+const fs = require('fs/promises');
+const sharp = require('sharp');
 
 craftRouter
   .route('/')
@@ -15,13 +18,20 @@ craftRouter
       res.status(500).json({ message: 'Ошибка сервера' });
     }
   })
-  .post(verifyAccessToken, async (req, res) => {
+  .post(verifyAccessToken, upload.single('file'), async (req, res) => {
     try {
-      const { title, desc, url } = req.body;
+      const { title, desc} = req.body;
+      if (!req.file) {
+        return res.status(400).json({ message: 'Файл не загружен' });
+      }
+      const name = `${Date.now()}.webp`;
+      const outputBuffer = await sharp(req.file.buffer).webp().toBuffer();
+      await fs.writeFile(`./public/img/${name}`, outputBuffer);
+
       const newCraft = await Craft.create({
         title,
         desc,
-        url,
+        url: name,
         userId: res.locals.user.id,
       });
       // если добавление на странице с изделиями

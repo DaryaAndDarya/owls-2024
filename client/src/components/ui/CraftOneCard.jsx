@@ -16,7 +16,7 @@ export default function CraftOneCard() {
   return (
     <Col className="d-flex justify-content-center">
       <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={craft.url} />
+        <Card.Img variant="top" src={`/img/${craft.url}`} />
         <Card.Body>
           <Card.Title>{craft.title}</Card.Title>
           <Card.Text>{craft.desc}</Card.Text>
